@@ -20,7 +20,9 @@ void	child(char **av, int *p_fd, char **env)
 {
 	int		fd;
 
-	fd = open_file(av[1], 0);
+	fd = open(av[1], O_RDONLY, 0777);
+	if (fd == -1)
+		exit(0);
 	dup2(fd, 0);
 	dup2(p_fd[1], 1);
 	close(p_fd[0]);
@@ -31,12 +33,23 @@ void	parent(char **av, int *p_fd, char **env)
 {
 	int		fd;
 
-	fd = open_file(av[4], 1);
+	waitpid(-1, NULL, 0);
+	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
+		exit(0);
 	dup2(fd, 1);
 	dup2(p_fd[0], 0);
 	close(p_fd[1]);
 	exec(av[3], env);
 }
+
+void print_environment(char **env) {
+    // Перебираем каждую строку в массиве env
+    for (int i = 0; env[i] != NULL; i++) {
+        printf("%s\n", env[i]);
+    }
+}
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -50,6 +63,7 @@ int	main(int ac, char **av, char **env)
 	pid = fork();
 	if (pid == -1)
 		exit(-1);
+	print_environment(env);
 	if (!pid)
 		child(av, p_fd, env);
 	parent(av, p_fd, env);

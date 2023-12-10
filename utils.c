@@ -7,17 +7,20 @@ void	exit_handler(int n_exit)
 	exit(0);
 }
 
-int	open_file(char *file, int in_or_out)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int	ret;
+	size_t	i;
 
-	if (in_or_out == 0)
-		ret = open(file, O_RDONLY, 0777);
-	if (in_or_out == 1)
-		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (ret == -1)
-		exit(0);
-	return (ret);
+	i = 0;
+	if (!s1)
+		return (1);
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	return (0);
 }
 
 void	ft_free_tab(char **tab)
