@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdogadin <mdogadin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/11 12:10:55 by mdogadin          #+#    #+#             */
+/*   Updated: 2023/12/11 12:30:28 by mdogadin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	exec(char *cmd, char **env)
@@ -43,14 +55,6 @@ void	parent(char **av, int *p_fd, char **env)
 	exec(av[3], env);
 }
 
-void print_environment(char **env) {
-    // Перебираем каждую строку в массиве env
-    for (int i = 0; env[i] != NULL; i++) {
-        printf("%s\n", env[i]);
-    }
-}
-
-
 int	main(int ac, char **av, char **env)
 {
 	int		p_fd[2];
@@ -63,7 +67,6 @@ int	main(int ac, char **av, char **env)
 	pid = fork();
 	if (pid == -1)
 		exit(-1);
-	print_environment(env);
 	if (!pid)
 		child(av, p_fd, env);
 	parent(av, p_fd, env);

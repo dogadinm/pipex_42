@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdogadin <mdogadin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/11 12:11:06 by mdogadin          #+#    #+#             */
+/*   Updated: 2023/12/11 12:11:15 by mdogadin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	exit_handler(int n_exit)
@@ -5,22 +17,6 @@ void	exit_handler(int n_exit)
 	if (n_exit == 1)
 		ft_putstr_fd("./pipex infile cmd cmd outfile\n", 2);
 	exit(0);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s1)
-		return (1);
-	while (s1[i] || s2[i])
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (0);
 }
 
 void	ft_free_tab(char **tab)
@@ -49,7 +45,7 @@ char	*my_getenv(char *name, char **env)
 		while (env[i][j] && env[i][j] != '=')
 			j++;
 		sub = ft_substr(env[i], 0, j);
-		if (ft_strcmp(sub, name) == 0)
+		if (ft_strncmp(sub, name, 4) == 0)
 		{
 			free(sub);
 			return (env[i] + j + 1);
