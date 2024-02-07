@@ -10,10 +10,6 @@ SRCS = 	pipex.c\
 		utils.c\
 		libft/libft.a\
 
-SRCS_BONUS = 	src_bonus/pipex_bonus.c\
-				src_bonus/utils_bonus.c\
-				libft/libft.a\
-
 $(NAME) :
 	make all -C libft
 	gcc $(CFLAGS) $(SRCS) -o $(NAME)
@@ -33,4 +29,4 @@ re : fclean all
 
 bonus : clean
 	make all -C libft
-	gcc $(CFLAGS) $(SRCS_BONUS) -o $(NAME)
+	gcc $(CFLAGS) -o $(NAME)

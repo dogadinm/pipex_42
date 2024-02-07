@@ -6,7 +6,7 @@
 /*   By: mdogadin <mdogadin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 12:10:55 by mdogadin          #+#    #+#             */
-/*   Updated: 2023/12/11 12:30:28 by mdogadin         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:07:58 by mdogadin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void	child(char **av, int *p_fd, char **env)
 
 	fd = open(av[1], O_RDONLY, 0777);
 	if (fd == -1)
+	{
+		write(1, "input file doesnt exist\n", 24);
 		exit(0);
+	}
 	dup2(fd, 0);
 	dup2(p_fd[1], 1);
 	close(p_fd[0]);
@@ -45,13 +48,13 @@ void	parent(char **av, int *p_fd, char **env)
 {
 	int		fd;
 
-	waitpid(-1, NULL, 0);
 	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1)
 		exit(0);
 	dup2(fd, 1);
 	dup2(p_fd[0], 0);
 	close(p_fd[1]);
+	waitpid(-1, NULL, 0);
 	exec(av[3], env);
 }
 
